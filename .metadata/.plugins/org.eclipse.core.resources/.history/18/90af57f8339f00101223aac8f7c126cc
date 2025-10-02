@@ -1,7 +1,0 @@
-package basics;
-
-public class ChoosingOption {
-	public static void main(String[] args) {
-		System.out.println("hello");
-	}
-}
