@@ -1,0 +1,9 @@
+Trả lời câu hỏi mục 6.1
+Câu hỏi 1: Điều gì xảy ra nếu người dùng chọn “Cancel”?
+Khi người dùng chọn “Cancel” trong hộp thoại JOptionPane.showConfirmDialog(), phương thức này sẽ trả về giá trị là JOptionPane.CANCEL_OPTION. Trong chương trình mẫu, vì giá trị này không phải là JOptionPane.YES_OPTION, chương trình sẽ mặc định hiển thị kết quả của tùy chọn ngược lại là "No".
+Hộp thoại kết quả sẽ hiển thị: "You've chosen: No".
+Câu hỏi 2: Làm thế nào để tùy chỉnh các tùy chọn cho người dùng, ví dụ: chỉ hai tùy chọn “Yes” và “No”, HOẶC “I do” và “I don’t”?
+1. Để chỉ hiển thị hai tùy chọn “Yes” và “No”:
+Sử dụng tham số optionType trong phương thức JOptionPane.showConfirmDialog() và đặt giá trị là JOptionPane.YES_NO_OPTION.
+2. Để tùy chỉnh các tùy chọn bằng chuỗi bất kỳ ("I do", "I don't"):
+Sử dụng phương thức JOptionPane.showOptionDialog() và truyền vào một mảng chứa các chuỗi tùy chọn mà chúng ta muốn hiển thị.
