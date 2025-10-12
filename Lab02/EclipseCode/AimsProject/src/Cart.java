@@ -5,7 +5,7 @@ public class Cart {
 	private int qtyOrdered =0;
 	public void addDigitalVideoDisc(DigitalVideoDisc disc){
 		if (qtyOrdered==MAX_NUMBERS_ORDERED) {
-			System.out.println("The cart is full");
+			System.out.println("The cart is almost full");
 		}else {
 		    itemsOrdered[qtyOrdered] = disc;
 		    System.out.println("The disc \"" + disc.getTitle() + "\" has been added.");
@@ -19,12 +19,27 @@ public class Cart {
 				checkdisc= true;
 				for (int j=i;j<=qtyOrdered-1;j++) {
 					itemsOrdered[j]=itemsOrdered[j+1];
-					qtyOrdered--;
-					System.out.println("We have removed the disk"+disc.getTitle()+"from cart");
 				}
+				itemsOrdered[qtyOrdered - 1] = null; 
+		        qtyOrdered--; 
+		        System.out.println("We have removed the disk"+disc.getTitle()+"from cart");
 				break;
 			}
 		}
 		if (!checkdisc) System.out.println("The disk is not found in the cart");
 	}
+	public float totalCost() {
+	    float total = 0;
+	    for (int i = 0; i < qtyOrdered; i++) {
+	        total += itemsOrdered[i].getCost();
+	    }
+	    return total;
+	}
+	public int getQtyOrdered() {
+        return qtyOrdered;
+    }
+    public DigitalVideoDisc[] getItemsOrdered() {
+        return itemsOrdered;
+    }
+
 }
