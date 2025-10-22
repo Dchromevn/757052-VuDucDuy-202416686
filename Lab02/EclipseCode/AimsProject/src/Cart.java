@@ -14,7 +14,7 @@ public class Cart {
 	}
 	public void removeDigitalVideoDisc(DigitalVideoDisc disc){
 		boolean checkdisc=false;
-		for (int i=0; i<=qtyOrdered;i++) {
+		for (int i=0; i<qtyOrdered;i++) {
 			if(itemsOrdered[i]==disc) {
 				checkdisc= true;
 				for (int j=i;j<=qtyOrdered-1;j++) {
@@ -41,5 +41,15 @@ public class Cart {
     public DigitalVideoDisc[] getItemsOrdered() {
         return itemsOrdered;
     }
-
+    public void addDigitalVideoDisc(DigitalVideoDisc dvd1, DigitalVideoDisc dvd2) {
+    	addDigitalVideoDisc(dvd1);
+    	addDigitalVideoDisc(dvd2);
+    	System.out.println("Two dvds have been added to the cart");
+    }
+    public void addDigitalVideoDisc(DigitalVideoDisc[] dvdList) {
+    	for (DigitalVideoDisc disc: dvdList) {
+    		addDigitalVideoDisc(disc);
+    	}
+    	System.out.println("A list of DVDs has been added to the cart");
+    }
 }
