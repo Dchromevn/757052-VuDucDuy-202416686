@@ -72,4 +72,9 @@ public class DigitalVideoDisc {
 		this.length = length;
 		this.cost = cost;
 	}
+	public String toString() {
+		return id + ". DVD - " + title + " - " + category + " - " 
+		           + (director != null ? director : "Unknown") + " - " 
+		           + length + " minutes: " + cost + " $";
+	}
 }

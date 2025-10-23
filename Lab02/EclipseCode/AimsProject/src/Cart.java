@@ -52,4 +52,11 @@ public class Cart {
     	}
     	System.out.println("A list of DVDs has been added to the cart");
     }
+    public void print() {
+    	System.out.println("The list of the DVDs in the cart");
+    	for (int i=0;i<qtyOrdered;i++) {
+    		System.out.println(itemsOrdered[i].toString());
+    	}
+    	System.out.println("Total cost is: "+totalCost());
+    }
 }
