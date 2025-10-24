@@ -8,5 +8,9 @@ public class CartTest {
 		DigitalVideoDisc dvd3=new DigitalVideoDisc("Aladin","Animation","Roger Allers",80,18.99f);
 		cart.addDigitalVideoDisc(dvd3);
 		cart.print();
+		cart.searchByID(3);
+		cart.searchByID(14);
+		cart.searchByTitle("war");
+		cart.searchByTitle("doraemon");
 	}			
 }

@@ -77,4 +77,7 @@ public class DigitalVideoDisc {
 		           + (director != null ? director : "Unknown") + " - " 
 		           + length + " minutes: " + cost + " $";
 	}
+	public boolean isMatch(String title) {
+		return this.title.toLowerCase().contains(title.toLowerCase());
+	}
 }

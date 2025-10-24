@@ -59,4 +59,29 @@ public class Cart {
     	}
     	System.out.println("Total cost is: "+totalCost());
     }
+    public void searchByTitle(String title) {
+    	boolean checkDVD=false;
+    	for (int i=0; i< qtyOrdered;i++) {
+    		if(itemsOrdered[i].isMatch(title)) {
+    			System.out.println(itemsOrdered[i].toString());
+    			checkDVD=true;
+    		}
+    	}
+    	if (!checkDVD) {
+    		System.out.println("There is no DVD with name: "+title+" in the cart");
+    	}
+    }
+    public void searchByID(int id) {
+    	boolean checkDVD=false;
+    	for (int i=0; i< qtyOrdered;i++) {
+    		if(itemsOrdered[i].getId()==id) {
+    			System.out.println(itemsOrdered[i].toString());
+    			checkDVD=true;
+    			break;
+    		}
+    	}
+    	if (!checkDVD) {
+    		System.out.println("There is no DVD with id: "+id+" in the cart");
+    	}
+    }
 }
