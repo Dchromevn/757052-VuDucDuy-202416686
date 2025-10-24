@@ -17,7 +17,7 @@ public class Cart {
 		for (int i=0; i<qtyOrdered;i++) {
 			if(itemsOrdered[i]==disc) {
 				checkdisc= true;
-				for (int j=i;j<=qtyOrdered-1;j++) {
+				for (int j=i;j<qtyOrdered-1;j++) {
 					itemsOrdered[j]=itemsOrdered[j+1];
 				}
 				itemsOrdered[qtyOrdered - 1] = null; 
