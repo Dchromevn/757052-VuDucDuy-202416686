@@ -1,0 +1,68 @@
+package hust.soict.dsai.aims;
+import java.util.Scanner;
+
+import Cart;
+import DigitalVideoDisc;
+public class Aims {
+	public static void main(String[] args) {
+		java.util.Scanner sc=new Scanner(System.in);
+		Cart cart = new Cart();
+		DigitalVideoDisc dvd1 = new DigitalVideoDisc("Doraemon", "Animation", "Fujiko F. Fujio", 100, 15.50f);
+        DigitalVideoDisc dvd2 = new DigitalVideoDisc("Conan", "Detective", "Gosho Aoyama", 120, 18.00f);
+        DigitalVideoDisc dvd3 = new DigitalVideoDisc("Pacific Rim", "Action", "Guillermo del Toro", 131, 22.75f);
+        DigitalVideoDisc dvd4 = new DigitalVideoDisc("Spiderman", "Superhero", "Sam Raimi", 121, 20.00f);
+        DigitalVideoDisc dvd5 = new DigitalVideoDisc("Ironman", "Superhero", "Jon Favreau", 126, 23.50f);
+        DigitalVideoDisc[] storeDVDs = {dvd1,dvd2,dvd3,dvd4,dvd5};
+        boolean checking=true;
+        while (checking) {
+        	System.out.println("\nAIMS: An Internet Media Store");
+            System.out.println("1. Add DVD to Cart");
+            System.out.println("2. Remove DVD from Cart");
+            System.out.println("3. Calculate total cost");
+            System.out.println("4. Exit");
+            System.out.print("Select an option: ");
+            int cuschoice = sc.nextInt();
+            sc.nextLine();
+            switch(cuschoice) {
+            	case 1:
+            		System.out.println("These are available DVDs");
+            		 for (int i = 0; i < storeDVDs.length; i++) {
+                         System.out.println((i + 1) + ". " + storeDVDs[i].getTitle() + " - $" + storeDVDs[i].getCost());
+            		 }
+            		 System.out.println("Enter the number of DVD you want to add");
+            		 int numberin = sc.nextInt() - 1;
+                     sc.nextLine();
+                     if (numberin >= 0 && numberin < storeDVDs.length) {
+                         cart.addDigitalVideoDisc(storeDVDs[numberin]);
+                     } else {
+                         System.out.println("Invalid selection.");
+                     }
+                     break;
+            	case 2:
+            		System.out.println("You have these DVDs in yoru cart");
+           		 	for (int i = 0; i < cart.getQtyOrdered(); i++) {
+                        System.out.println((i + 1) + ". " + cart.getItemsOrdered()[i].getTitle());
+           		 	}
+           		 	System.out.println("Enter the number of DVD you want to remove");
+           		 	int numberout = sc.nextInt() - 1;
+           		 	sc.nextLine();
+           		 	if (numberout >= 0 && numberout < cart.getQtyOrdered()){
+           		 		cart.removeDigitalVideoDisc(cart.getItemsOrdered()[numberout]);
+           		 	}	
+           		 	else {
+           		 		System.out.println("Invalid Number, Please Enter Again");
+           		 	}
+           		 	break;
+            	case 3:
+            		System.out.println("Total cost is:"+cart.totalCost());
+            		break;
+            	case 4:
+            		checking=false;
+            		System.out.println("Exiting the system. Thank you for using our AIMS!");
+            	default:
+                    System.out.println("Invalid option. Try again.");
+            }
+        }
+        sc.close();
+	}
+}
