@@ -6,8 +6,12 @@ public class Track implements Playable{
         this.title = title;
         this.length = length;
     }   
-    public String getTitle() { return title; }
-    public int getLength() { return length; }
+    public String getTitle() { 
+    	return title; 
+    	}
+    public int getLength() { 
+    	return length; 
+    	}
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || !(o instanceof Track)) return false;

@@ -1,0 +1,28 @@
+1. Why must equals() return false when the object is not an instance of Media/Track?
+Because comparing two objects of unrelated types has no semantic meaning. The method checks the type to avoid invalid casting. If the input is not a Media/Track instance, the comparison cannot be performed logically, so the method safely returns false.
+2. Explain polymorphism when calling toString() through a list of Media.
+A list of type Media may hold objects of different subclasses such as DVDs, CDs, or Books. When calling toString() on each element, Java uses dynamic dispatch: the method of the actual runtime class is executed, not the one from Media. This behavior demonstrates runtime polymorphism.
+3. Comparable (a–d)
+a. Which class should implement Comparable?
+The Media class should implement Comparable<Media> because the default ordering is intended for all media types.
+b. How should compareTo() reflect the sorting rule?
+It should follow the default global rule:
+first compare by title; if the titles match, compare by cost.
+This defines a single, consistent natural order for all Media objects.
+c. Can Comparable support two sorting rules (title→cost and cost→title)?
+No. Comparable provides only one natural ordering. Multiple sorting rules must be implemented using separate Comparator objects.
+d. How to support a special ordering for DVDs (title → decreasing length → cost)?
+Provide either:
+A specialized ordering defined in a dedicated Comparator for DVDs, or
+An overridden compareTo() inside the DVD class if a unique natural ordering is required.
+Using a Comparator is generally preferred because it avoids overriding the global natural order inherited from Media.
+4. Aggregation and constructors
+Which classes represent aggregation?
+A CompactDisc aggregates Track objects.
+A Store aggregates Media objects.
+A Cart aggregates Media objects.
+In all cases, the parts (Track, Media) can exist independently of the whole.
+Should constructors initialize the parts?
+Constructors of the “whole” classes should create empty collections that will contain the parts.
+They should not automatically create the parts themselves.
+Tracks and Media objects are added later through methods such as addTrack() or addMedia().
