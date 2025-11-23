@@ -1,38 +1,26 @@
 package hust.soict.dsai.aims.store.Store;
-import hust.soict.dsai.aims.media.DigitalVideoDisc;
-
+import java.util.ArrayList;
+import hust.soict.dsai.aims.media.Media;
 public class Store {
-	private DigitalVideoDisc[] itemsInStore;
-	private int qtyInStore=0;
-	public Store(int maxCapacity) {
-		itemsInStore= new DigitalVideoDisc[maxCapacity];
-	}
-	public void addDVD(DigitalVideoDisc disc) {
-		if(qtyInStore< itemsInStore.length) {
-			itemsInStore[qtyInStore]=disc;
-			qtyInStore++;
-			System.out.println("The DVD: "+disc.getTitle()+" has been add to store");
-		}
-		else {
-			System.out.println("The Store is full of DVDs, cannot add anymore");
-		}
-	}
-	public void removeDVD(DigitalVideoDisc disc) {
-		boolean checkDVD=false;
-		for (int i=0;i<qtyInStore;i++) {
-			if(itemsInStore[i]==disc) {
-				checkDVD=true;
-				for (int j=i;j<qtyInStore-1;j++) {
-					itemsInStore[j]=itemsInStore[j+1];
-				}
-				itemsInStore[qtyInStore - 1] = null;
-				qtyInStore--;
-				System.out.println("You have remove the DVD: "+disc.getTitle()+" from store");
-				break;
-			}
-		}
-		if(!checkDVD) {
-			System.out.println("There is no DVD name: "+disc.getTitle()+" in the store");
-		}
-	}
+    private ArrayList<Media> itemsInStore = new ArrayList<Media>();
+    public Store() {
+    } 
+    public ArrayList<Media> getItemsInStore() {
+        return itemsInStore;
+    }
+    public void addMedia(Media media) {
+        if (itemsInStore.contains(media)) {
+             System.out.println("ERROR: Media '" + media.getTitle() + "' is already in the store.");
+             return;
+        }       
+        itemsInStore.add(media);
+        System.out.println("Media '" + media.getTitle() + "' has been added to the store.");
+    }
+    public void removeMedia(Media media) {
+        if (itemsInStore.remove(media)) { 
+            System.out.println("Media '" + media.getTitle() + "' has been removed from the store.");
+        } else {
+            System.out.println("ERROR: Media '" + media.getTitle() + "' is not found in the store.");
+        }
+    }
 }
