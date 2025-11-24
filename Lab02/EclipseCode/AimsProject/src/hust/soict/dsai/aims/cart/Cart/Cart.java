@@ -6,8 +6,6 @@ import java.util.ArrayList;
 public class Cart {
     public static final int MAX_NUMBERS_ORDERED = 20;
     private ArrayList<Media> itemsOrdered = new ArrayList<Media>();
-
-    // Phương thức Getter cho danh sách (cần thiết cho Collections.sort() trong Aims)
     public ArrayList<Media> getItemsOrdered() {
         return itemsOrdered;
     }
@@ -51,8 +49,6 @@ public class Cart {
         System.out.println("Total cost: " + totalCost() + " $");
         System.out.println("**********************************");
     }
-
-    // Hỗ trợ chức năng Play và Remove trong Aims (tìm kiếm Media theo Title trong Cart)
     public Media findMediaByTitle(String title) {
         for (Media media : itemsOrdered) {
             if (media.isMatch(title)) { 
@@ -61,8 +57,6 @@ public class Cart {
         }
         return null; 
     }
-
-    // Hỗ trợ chức năng Filter theo ID (filterMedias(int id))
     public void filterMedias(int id) {
         boolean found = false;
         System.out.println("\n--- Items Matching ID: " + id + " ---");
@@ -77,8 +71,6 @@ public class Cart {
             System.out.println("No item found with ID: " + id + ".");
         }
     }
-
-    // Hỗ trợ chức năng Filter theo Title (filterMedias(String title))
     public void filterMedias(String title) {
         boolean found = false;
         System.out.println("\n--- Items Matching Title: '" + title + "' ---");
@@ -92,13 +84,10 @@ public class Cart {
             System.out.println("No item found with title containing: '" + title + "'.");
         }
     }
-
-    // Hỗ trợ chức năng Place Order (làm rỗng giỏ hàng)
     public void placeOrder() {
         itemsOrdered.clear();
     }
     public int getQtyOrdered() {
-        // Trả về số lượng vật phẩm hiện tại bằng cách sử dụng phương thức size() của ArrayList
         return itemsOrdered.size();
     }
 }
