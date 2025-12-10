@@ -1,6 +1,6 @@
 package hust.soict.dsai.test.disc.TestPassingParameter;
 import hust.soict.dsai.aims.media.DigitalVideoDisc;
-import hust.soict.dsai.aims.media.Media;
+
 public class TestPassingParameter {
 	public static void main(String[] args) {
 		DigitalVideoDisc jungleDVD= new DigitalVideoDisc("Jungle");
@@ -37,14 +37,10 @@ public class TestPassingParameter {
 		
 		dvd1.setTitle(dvd2.getTitle());
 		dvd1.setCategory(dvd2.getCategory());
-		dvd1.setDirector(dvd2.getDirector());
-		dvd1.setLength(dvd2.getLength());
 		dvd1.setCost(dvd2.getCost());
 		
 		dvd2.setTitle(tmpTitle);
 		dvd2.setCategory(tmpCategory);
-		dvd2.setDirector(tmpDirector);
-		dvd2.setLength(tmpLegth);
 		dvd2.setCost(tmpCost);
 	}
 }

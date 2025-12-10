@@ -15,7 +15,11 @@ public abstract class Disc extends Media  {
     public Disc(String title) {
         super(title);
     }
-    
+
+    public Disc(String title, String category, float cost, String director) {
+        super(title, category, cost);
+    }
+
     public int getLength() { 
     	return length; 
     	}
