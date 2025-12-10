@@ -14,12 +14,9 @@ import hust.soict.dsai.aims.exception.LimitExceededException;
 import hust.soict.dsai.aims.media.DigitalVideoDisc;
 
 public class CartScreen extends JFrame {
-    private Cart cart;
 
     public CartScreen(Cart cart) {
         super();
-
-        this.cart = cart;
 
         JFXPanel fxPanel = new JFXPanel();
         this.add(fxPanel);

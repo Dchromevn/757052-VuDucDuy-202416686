@@ -1,15 +1,19 @@
 package hust.soict.dsai.aims.media;
 import java.util.ArrayList;
-public class CompactDisc extends Disc implements Playable{
+import java.util.List;
+import java.util.Iterator;
+import hust.soict.dsai.aims.exception.PlayerException;
+
+public class CompactDisc extends Disc implements Playable {
     private String artist;
-    private ArrayList<Track> tracks = new ArrayList<>();
-    public CompactDisc(String title, String category, float cost, String director, int length, String artist) {
-        super(title, category, cost, director, length); 
-        this.artist = artist;
+    private List<Track> tracks = new ArrayList<Track>();
+
+    public CompactDisc(String title) {
+        super(title);
     }
-    public CompactDisc(String title, String category, float cost, String director, String artist) {
-        super(title, category, cost, director);
-        this.artist = artist;
+
+    public CompactDisc(String title, String category, float cost) {
+        super(title, category, cost);
     }
 
     public CompactDisc(String title, String category, String artist, float cost) {
@@ -18,8 +22,27 @@ public class CompactDisc extends Disc implements Playable{
     }
 
     public String getArtist() {
-    	return artist; 
-    	}
+        return artist;
+    }
+
+    public void addTrack(Track track) {
+        if (tracks.contains(track)) {
+            System.out.println("Track: " + track.getTitle() + " is already in the CD");
+        } else {
+            tracks.add(track);
+            System.out.println("Track: " + track.getTitle() + " has been added to CD");
+        }
+    }
+
+    public void removeTrack(Track track) {
+        if (tracks.contains(track)) {
+            tracks.remove(track);
+            System.out.println("Track: " + track.getTitle() + " has been removed from CD");
+        } else {
+            System.out.println("Track: " + track.getTitle() + " is not in the CD");
+        }
+    }
+
     @Override
     public int getLength() {
         int totalLength = 0;
@@ -28,33 +51,24 @@ public class CompactDisc extends Disc implements Playable{
         }
         return totalLength;
     }
-    public void addTrack(Track track) {
-        if (!tracks.contains(track)) {
-            tracks.add(track);
-            System.out.println("You have add track: "+track.getTitle());
-        }else {
-        		System.out.println("There is an existing track name: "+track.getTitle()+". Can not add");
-        }
-    }
-    public void removeTrack(Track track) {
-        tracks.remove(track);
-        System.out.println("You have removed track: "+track.getLength());
-    }
+
     @Override
-    public void play() {
-    	System.out.println("Playing the CD: "+getTitle());
-    	System.out.println("The Artist: "+getArtist());
-    	System.out.println("CD length: "+ getLength());
-    	System.out.println("---Playing Track---");
-    	for (Track track : tracks) {
-    		track.play();
-    	}
-    	System.out.println("Finish Playing CD");
+    public void play() throws PlayerException {
+        if (this.getLength() <= 0) {
+            throw new PlayerException("ERROR: CD length is non-positive!");
+        }
+        System.out.println("Playing CD: " + this.getTitle());
+        System.out.println("Artist: " + this.getArtist());
+        Iterator<Track> iter = tracks.iterator();
+        Track nextTrack;
+        while (iter.hasNext()) {
+            nextTrack = (Track) iter.next();
+            nextTrack.play();
+        }
     }
     @Override
     public String toString() {
-        return "CD - [" + getTitle() + "] - [" + getCategory() + 
-               "] - [Artist: " + getArtist() + "] - [Total Length: " + getLength() + 
-               " mins]: " + getCost() + " $";
+        return "CD - " + this.getTitle() + " - " + this.getCategory() + " - "
+                + this.getArtist() + " - " + this.getLength() + ": " + this.getCost() + " $";
     }
 }
