@@ -5,58 +5,67 @@ public abstract class Media {
     private String title;
     private String category;
     private float cost;
-    private static int nbMedia = 0; 
+
     public static final Comparator<Media> COMPARE_BY_TITLE_COST = new MediaComparatorByTitleCost();
     public static final Comparator<Media> COMPARE_BY_COST_TITLE = new MediaComparatorByCostTitle();
+
     public Media() {
-        nbMedia++;
-        this.id = nbMedia;
     }
-    public Media(String title) {
-        this();
+
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
         this.title = title;
-        this.category = "Unknown";
-        this.cost = 0.0f;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public float getCost() {
+        return cost;
     }
     public Media(String title, String category, float cost) {
-        this();
         this.title = title;
         this.category = category;
         this.cost = cost;
     }
-    public int getId() { 
-    	return id; 
-    	}
-    public String getTitle() { 
-    	return title; 
-    	}
-    public String getCategory() { 
-    	return category; 
-    	}
-    public float getCost() { 
-    	return cost; 
-    	}
-    public void setTitle(String title) { 
-    	this.title = title; 
-    	}
-    public void setCategory(String category) { 
-    	this.category = category; 
-    	}
-    public void setCost(float cost) { 
-    	this.cost = cost; 
-    	}
-    public boolean isMatch(String title) {
-        return this.getTitle().toLowerCase().contains(title.toLowerCase());
+    public Media(String title) {
+        this.title = title;
+    }
+    public void setCost(float cost) throws IllegalArgumentException {
+        if (cost < 0) {
+            throw new IllegalArgumentException("Cost cannot be negative!");
+        }
+        this.cost = cost;
     }
     @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || !(o instanceof Media)) {
+    public boolean equals(Object obj) {
+        if (obj == null) {
             return false;
         }
-        Media media = (Media) o;
-        return this.title.equals(media.title);
+        if (!(obj instanceof Media)) {
+            return false;
+        }
+        Media otherMedia = (Media) obj;
+        if (this.getTitle() == null) {
+            return otherMedia.getTitle() == null;
+        }
+        return this.getTitle().equals(otherMedia.getTitle());
     }
 }

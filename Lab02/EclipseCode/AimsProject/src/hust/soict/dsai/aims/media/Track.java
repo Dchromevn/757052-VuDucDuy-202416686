@@ -1,28 +1,43 @@
 package hust.soict.dsai.aims.media;
-public class Track implements Playable{
+import hust.soict.dsai.aims.exception.PlayerException;
+
+public class Track implements Playable {
     private String title;
     private int length;
+
     public Track(String title, int length) {
         this.title = title;
         this.length = length;
-    }   
-    public String getTitle() { 
-    	return title; 
-    	}
-    public int getLength() { 
-    	return length; 
-    	}
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || !(o instanceof Track)) return false;
-        
-        Track track = (Track) o;
-        return this.length == track.length && 
-               this.title.equals(track.title); 
     }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public int getLength() {
+        return length;
+    }
+
     @Override
-    public void play() {
-    	System.out.println("Playing Track: "+ this.getTitle());
-    	System.out.println("Track length: "+ this.getLength());
+    public boolean equals(Object obj) {
+        if (obj == null || !(obj instanceof Track)) {
+            return false;
+        }
+
+        Track other = (Track) obj;
+        if (this.title != null) {
+            return this.title.equals(other.title) && this.length == other.length;
+        }
+        return false;
+    }
+
+    @Override
+    public void play() throws PlayerException {
+        if (this.getLength() > 0) {
+            System.out.println("Playing path: " + this.getTitle());
+            System.out.println("Path length: " + this.getLength());
+        } else {
+            throw new PlayerException("ERROR: Track length is non-positive!");
+        }
     }
 }

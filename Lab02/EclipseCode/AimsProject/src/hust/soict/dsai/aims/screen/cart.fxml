@@ -16,7 +16,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
-<BorderPane fx:controller="hust.soict.dsai.aims.screen.CartScreenController" prefHeight="768.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane prefHeight="768.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1">
 <top>
     <VBox prefWidth="100.0" BorderPane.alignment="CENTER">
         <children>
@@ -26,13 +26,13 @@
                         <items>
                             <Menu mnemonicParsing="false" text="Update Store">
                                 <items>
-                                    <MenuItem mnemonicParsing="false" text="Add Book" />
-                                    <MenuItem mnemonicParsing="false" text="Add CD" />
-                                    <MenuItem mnemonicParsing="false" text="Add DVD" />
+                                    <MenuItem mnemonicParsing="false" onAction="#mnuAddBookClicked" text="Add Book" />
+                                    <MenuItem mnemonicParsing="false" onAction="#mnuAddCDClicked" text="Add CD" />
+                                    <MenuItem mnemonicParsing="false" onAction="#mnuAddDVDClicked" text="Add DVD" />
                                 </items>
                             </Menu>
-                            <MenuItem mnemonicParsing="false" text="View Store" />
-                            <MenuItem mnemonicParsing="false" text="View Cart" />
+                            <MenuItem mnemonicParsing="false" onAction="#mnuViewStoreClicked" text="View Store" />
+                            <MenuItem mnemonicParsing="false" onAction="#mnuViewCartClicked" text="View Cart" />
                         </items>
                     </Menu>
                 </menus>

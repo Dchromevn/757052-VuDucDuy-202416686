@@ -4,6 +4,9 @@ import hust.soict.dsai.aims.cart.Cart;
 import hust.soict.dsai.aims.exception.PlayerException;
 import hust.soict.dsai.aims.media.Media;
 import hust.soict.dsai.aims.media.Playable;
+import hust.soict.dsai.aims.store.Store;
+
+import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ListChangeListener;
@@ -12,48 +15,37 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
+import javafx.scene.Node;
+import javax.swing.JFrame;
 
 public class CartScreenController {
     private Cart cart;
-
-    @FXML
-    private TableView<Media> tblMedia;
-
-    @FXML
-    private TableColumn<Media, String> colMediaTitle;
-
-    @FXML
-    private TableColumn<Media, String> colMediaCategory;
-
-    @FXML
-    private TableColumn<Media, Float> colMediaCost;
-
-    @FXML
-    private Button btnPlay;
-
-    @FXML
-    private Button btnRemove;
-
-    @FXML
-    private TextField tfFilter;
-
-    @FXML
-    private RadioButton radioBtnFilterId;
-
-    @FXML
-    private RadioButton radioBtnFilterTitle;
-
-    @FXML
-    private ToggleGroup filterCategory;
-
-    @FXML
-    private Label lblTotalCost;
+    private Store store;
+    private JFrame containingFrame; // Dùng để đóng JFrame mẹ
+    @FXML private TableView<Media> tblMedia;
+    @FXML private TableColumn<Media, String> colMediaTitle;
+    @FXML private TableColumn<Media, String> colMediaCategory;
+    @FXML private TableColumn<Media, Float> colMediaCost;
+    @FXML private Button btnPlay;
+    @FXML private Button btnRemove;
+    @FXML private TextField tfFilter;
+    @FXML private RadioButton radioBtnFilterId;
+    @FXML private RadioButton radioBtnFilterTitle;
+    @FXML private ToggleGroup filterCategory;
+    @FXML private Label lblTotalCost;
 
     private FilteredList<Media> filteredData;
 
-    public CartScreenController(Cart cart) {
+    public CartScreenController(Store store, Cart cart, JFrame containingFrame) {
         super();
+        this.store = store;
         this.cart = cart;
+        this.containingFrame = containingFrame;
+    }
+
+    public CartScreenController(Store store, Cart cart) {
+        this(store, cart, null);
     }
 
     @FXML
@@ -63,9 +55,7 @@ public class CartScreenController {
         colMediaCost.setCellValueFactory(new PropertyValueFactory<Media, Float>("cost"));
 
         filteredData = new FilteredList<>(this.cart.getItemsOrdered(), p -> true);
-
         tblMedia.setItems(filteredData);
-
         btnPlay.setVisible(false);
         btnRemove.setVisible(false);
 
@@ -75,6 +65,9 @@ public class CartScreenController {
                     public void changed(ObservableValue<? extends Media> observable, Media oldValue, Media newValue) {
                         if (newValue != null) {
                             updateButtonBar(newValue);
+                        } else {
+                            btnPlay.setVisible(false);
+                            btnRemove.setVisible(false);
                         }
                     }
                 }
@@ -86,21 +79,23 @@ public class CartScreenController {
                 showFilteredMedia(newValue);
             }
         });
-
         cart.getItemsOrdered().addListener(new ListChangeListener<Media>() {
             @Override
             public void onChanged(Change<? extends Media> c) {
-                updateTotalCost();
+                Platform.runLater(() -> {
+                    updateTotalCost();
+                    tblMedia.refresh();
+                });
             }
         });
 
         updateTotalCost();
     }
-
     private void updateTotalCost() {
-        lblTotalCost.setText(cart.totalCost() + " $");
+        if (lblTotalCost != null && cart != null) {
+            lblTotalCost.setText(String.format("%.2f $", cart.totalCost()));
+        }
     }
-
     private void updateButtonBar(Media media) {
         btnRemove.setVisible(true);
         if (media instanceof Playable) {
@@ -109,7 +104,6 @@ public class CartScreenController {
             btnPlay.setVisible(false);
         }
     }
-
     private void showFilteredMedia(String keyword) {
         String newKeyword = keyword.toLowerCase();
         filteredData.setPredicate(media -> {
@@ -127,7 +121,9 @@ public class CartScreenController {
     @FXML
     private void btnRemovePressed(ActionEvent event) {
         Media media = tblMedia.getSelectionModel().getSelectedItem();
-        cart.removeMedia(media);
+        if (media != null) {
+            cart.removeMedia(media);
+        }
     }
 
     @FXML
@@ -135,30 +131,74 @@ public class CartScreenController {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Order Notification");
         alert.setHeaderText(null);
-        alert.setContentText("Order created successfully");
+        alert.setContentText("Order created successfully. Total: " + String.format("%.2f $", cart.totalCost()));
         alert.showAndWait();
 
         cart.getItemsOrdered().clear();
+        updateTotalCost();
     }
 
     @FXML
     private void btnPlayPressed(ActionEvent event) {
         Media media = tblMedia.getSelectionModel().getSelectedItem();
-        try {
-            ((Playable) media).play();
+        if (media != null && media instanceof Playable) {
+            try {
+                ((Playable) media).play();
 
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Playing Media");
-            alert.setHeaderText("Playing: " + media.getTitle());
-            alert.setContentText("Media is now playing...");
-            alert.showAndWait();
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Playing Media");
+                alert.setHeaderText("Playing: " + media.getTitle());
+                alert.setContentText("Media is now playing...");
+                alert.showAndWait();
 
-        } catch (PlayerException e) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error Playing Media");
-            alert.setHeaderText("Cannot play this media");
-            alert.setContentText(e.getMessage());
-            alert.showAndWait();
+            } catch (PlayerException e) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error Playing Media");
+                alert.setHeaderText("Cannot play this media");
+                alert.setContentText(e.getMessage());
+                alert.showAndWait();
+            }
         }
+    }
+    private void disposeCurrentScreen(ActionEvent event) {
+        if (containingFrame != null) {
+            containingFrame.dispose();
+        } else {
+            Node source = (Node) event.getSource();
+            Stage currentStage = (Stage) source.getScene().getWindow();
+            currentStage.close();
+        }
+    }
+    @FXML
+    void mnuAddDVDClicked(ActionEvent event) {
+        new AddDigitalVideoDiscToStoreScreen(this.store, this.cart);
+        disposeCurrentScreen(event);
+    }
+
+    @FXML
+    void mnuAddCDClicked(ActionEvent event) {
+        new AddCompactDiscToStoreScreen(this.store, this.cart);
+        disposeCurrentScreen(event);
+    }
+
+    @FXML
+    void mnuAddBookClicked(ActionEvent event) {
+        new AddBookToStoreScreen(this.store, this.cart);
+        disposeCurrentScreen(event);
+    }
+    @FXML
+    void mnuViewStoreClicked(ActionEvent event) {
+        new StoreScreen(this.store, this.cart);
+        disposeCurrentScreen(event);
+    }
+    @FXML
+    void mnuViewCartClicked(ActionEvent event) {
+        updateTotalCost();
+        tblMedia.refresh();
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("NOTIFICATION");
+        alert.setHeaderText(null);
+        alert.setContentText("THE CART IS RENEWED");
+        alert.showAndWait();
     }
 }

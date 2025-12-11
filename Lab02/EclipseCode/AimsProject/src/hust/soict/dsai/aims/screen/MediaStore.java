@@ -30,10 +30,12 @@ public class MediaStore extends JPanel {
         btnAddToCart.addActionListener(e -> {
             try {
                 cart.addMedia(media);
+                JOptionPane.showMessageDialog(this, media.getTitle() + " has been added to the cart.");
             } catch (LimitExceededException ex) {
-                throw new RuntimeException(ex);
+                // SỬA LỖI: Hiển thị thông báo thay vì ném RuntimeException
+                JOptionPane.showMessageDialog(this, ex.getMessage(),
+                        "Add to Cart Error", JOptionPane.ERROR_MESSAGE);
             }
-            JOptionPane.showMessageDialog(this, media.getTitle() + " has been added to the cart.");
         });
         container.add(btnAddToCart);
 
@@ -41,7 +43,6 @@ public class MediaStore extends JPanel {
             JButton btnPlay = new JButton("Play");
             btnPlay.addActionListener(e -> {
                 try {
-                    // Gọi play() và xử lý thông báo bằng Dialog
                     ((Playable) media).play();
                     JOptionPane.showMessageDialog(this, "Playing: " + media.getTitle(),
                             "Playback Success", JOptionPane.INFORMATION_MESSAGE);

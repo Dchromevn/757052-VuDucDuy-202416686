@@ -27,6 +27,7 @@ public abstract class AddItemToStoreScreen extends JFrame {
         setTitle("Add Item to Store");
         setSize(1024, 768);
         setVisible(true);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }
 
     JPanel createNorth() {
@@ -41,6 +42,8 @@ public abstract class AddItemToStoreScreen extends JFrame {
         JMenu menu = new JMenu("Options");
 
         JMenu smUpdateStore = new JMenu("Update Store");
+
+        // Đóng cửa sổ hiện tại khi mở màn hình Add khác
         JMenuItem addBook = new JMenuItem("Add Book");
         addBook.addActionListener(e -> {
             new AddBookToStoreScreen(store, cart);
@@ -64,6 +67,7 @@ public abstract class AddItemToStoreScreen extends JFrame {
 
         menu.add(smUpdateStore);
 
+        // Đóng cửa sổ hiện tại khi mở View Store
         JMenuItem viewStore = new JMenuItem("View store");
         viewStore.addActionListener(e -> {
             new StoreScreen(store, cart);
@@ -71,9 +75,11 @@ public abstract class AddItemToStoreScreen extends JFrame {
         });
         menu.add(viewStore);
 
+        // Đóng cửa sổ hiện tại khi mở View Cart
         JMenuItem viewCart = new JMenuItem("View cart");
         viewCart.addActionListener(e -> {
-            new CartScreen(cart);
+            new CartScreen(store, cart);
+            this.dispose();
         });
         menu.add(viewCart);
 

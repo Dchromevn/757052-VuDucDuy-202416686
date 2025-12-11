@@ -24,7 +24,8 @@ public class StoreScreen extends JFrame {
 
         setTitle("Store Screen");
         setSize(1024, 768);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setVisible(true);
     }
 
@@ -40,13 +41,36 @@ public class StoreScreen extends JFrame {
         JMenu menu = new JMenu("Options");
 
         JMenu smUpdateStore = new JMenu("Update Store");
-        smUpdateStore.add(new JMenuItem("Add Book"));
-        smUpdateStore.add(new JMenuItem("Add CD"));
-        smUpdateStore.add(new JMenuItem("Add DVD"));
+        JMenuItem addBook = new JMenuItem("Add Book");
+        addBook.addActionListener(e -> {
+            new AddBookToStoreScreen(store, cart);
+            this.dispose(); // Đóng StoreScreen
+        });
+        smUpdateStore.add(addBook);
+
+        JMenuItem addCD = new JMenuItem("Add CD");
+        addCD.addActionListener(e -> {
+            new AddCompactDiscToStoreScreen(store, cart);
+            this.dispose(); // Đóng StoreScreen
+        });
+        smUpdateStore.add(addCD);
+
+        JMenuItem addDVD = new JMenuItem("Add DVD");
+        addDVD.addActionListener(e -> {
+            new AddDigitalVideoDiscToStoreScreen(store, cart);
+            this.dispose(); // Đóng StoreScreen
+        });
+        smUpdateStore.add(addDVD);
 
         menu.add(smUpdateStore);
-        menu.add(new JMenuItem("View store"));
-        menu.add(new JMenuItem("View cart"));
+        JMenuItem viewCart = new JMenuItem("View cart");
+        viewCart.addActionListener(e -> {
+            new CartScreen(store, cart);
+            this.dispose(); // Đóng StoreScreen
+        });
+        menu.add(viewCart);
+        JMenuItem viewStore = new JMenuItem("View store");
+        menu.add(viewStore);
 
         JMenuBar menuBar = new JMenuBar();
         menuBar.setLayout(new FlowLayout(FlowLayout.LEFT));
@@ -54,6 +78,7 @@ public class StoreScreen extends JFrame {
 
         return menuBar;
     }
+
     JPanel createHeader() {
         JPanel header = new JPanel();
         header.setLayout(new BoxLayout(header, BoxLayout.X_AXIS));
@@ -65,6 +90,10 @@ public class StoreScreen extends JFrame {
         JButton cartButton = new JButton("View cart");
         cartButton.setPreferredSize(new Dimension(100, 50));
         cartButton.setMaximumSize(new Dimension(100, 50));
+        cartButton.addActionListener(e -> {
+            new CartScreen(store, cart);
+            this.dispose(); // Đóng StoreScreen
+        });
 
         header.add(Box.createRigidArea(new Dimension(10, 10)));
         header.add(title);

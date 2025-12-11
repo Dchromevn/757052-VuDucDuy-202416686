@@ -1,8 +1,8 @@
 package hust.soict.dsai.aims;
 
 import hust.soict.dsai.aims.cart.Cart;
-import hust.soict.dsai.aims.media.DigitalVideoDisc;
 import hust.soict.dsai.aims.screen.CartScreenController;
+import hust.soict.dsai.aims.store.Store;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -13,30 +13,41 @@ import java.io.IOException;
 
 public class AimsApplication extends Application {
 
-    private Cart cart = new Cart();
-
     @Override
     public void start(Stage primaryStage) throws Exception {
-        cart.addMedia(new DigitalVideoDisc("The Lion King", "Animation", 19.95f,  "Roger Allers",87));
-        cart.addMedia(new DigitalVideoDisc("Star Wars", "Science Fiction", 24.95f,  "George Lucas",137));
-        cart.addMedia(new DigitalVideoDisc("Aladin", "Animation", 18.99f));
-        FXMLLoader fxmlLoader = new FXMLLoader(
-                CartScreenController.class.getResource("cart.fxml")
-        );
 
-        fxmlLoader.setControllerFactory(param -> {
-            if (param.equals(CartScreenController.class)) {
-                return new CartScreenController(cart);
-            }
-            return null;
-        });
+        Aims.initSetup();
+        Store myStore = Aims.getStore();
+        Cart myCart = Aims.getCart();
 
-        Parent root = fxmlLoader.load();
+        try {
 
-        primaryStage.setScene(new Scene(root));
-        primaryStage.setTitle("AIMS - Cart Screen");
-        primaryStage.show();
+            FXMLLoader fxmlLoader = new FXMLLoader(
+                    getClass().getResource("/hust/soict/dsai/aims/screen/cart.fxml")
+            );
+
+
+            CartScreenController controller = new CartScreenController(myStore, myCart);
+            fxmlLoader.setController(controller);
+
+            Parent root = fxmlLoader.load();
+
+            primaryStage.setScene(new Scene(root));
+            primaryStage.setTitle("Cart - AIMS Application (JavaFX)");
+            primaryStage.show();
+
+        } catch (IOException e) {
+            System.err.println("--- ERROR LOADING FXML FATAL (AimsApplication) ---");
+            e.printStackTrace();
+            throw e;
+
+        } catch (Exception e) {
+            System.err.println("--- ERROR INITIALIZING CONTROLLER FATAL (AimsApplication) ---");
+            e.printStackTrace();
+            throw e;
+        }
     }
+
     public static void main(String[] args) {
         launch(args);
     }
