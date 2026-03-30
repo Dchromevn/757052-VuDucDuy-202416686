@@ -1,0 +1,11 @@
+eclipse.preferences.version=1
+org.eclipse.jdt.model.model.core.compiler.codegen.targetPlatform=24
+org.eclipse.jdt.model.model.core.compiler.codegen.unusedLocal=preserve
+org.eclipse.jdt.model.model.core.compiler.compliance=24
+org.eclipse.jdt.model.model.core.compiler.debug.lineNumber=generate
+org.eclipse.jdt.model.model.core.compiler.debug.localVariable=generate
+org.eclipse.jdt.model.model.core.compiler.debug.sourceFile=generate
+org.eclipse.jdt.model.model.core.compiler.problem.enablePreviewFeatures=disabled
+org.eclipse.jdt.model.model.core.compiler.problem.reportPreviewFeatures=warning
+org.eclipse.jdt.model.model.core.compiler.release=enabled
+org.eclipse.jdt.model.model.core.compiler.source=24

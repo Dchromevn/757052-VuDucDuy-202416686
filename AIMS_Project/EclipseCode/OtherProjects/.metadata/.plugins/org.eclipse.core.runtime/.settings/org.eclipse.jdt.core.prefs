@@ -1,0 +1,6 @@
+eclipse.preferences.version=1
+org.eclipse.jdt.model.model.core.codeComplete.visibilityCheck=enabled
+org.eclipse.jdt.model.model.core.compiler.codegen.targetPlatform=24
+org.eclipse.jdt.model.model.core.compiler.compliance=24
+org.eclipse.jdt.model.model.core.compiler.release=enabled
+org.eclipse.jdt.model.model.core.compiler.source=24
